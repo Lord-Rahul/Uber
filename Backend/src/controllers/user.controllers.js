@@ -1,8 +1,6 @@
 import { UserModel } from "../models/user.models.js";
 import createUser from "../services/user.services.js";
 import { validationResult } from "express-validator";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 
 const registerUser = async (req, res, next) => {
   const errors = validationResult(req);
