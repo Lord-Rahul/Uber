@@ -21,7 +21,10 @@ const registerUser = async (req, res, next) => {
   });
   const token = user.generateAuthToken();
 
-  res.status(200).json({ token, user });
+  const userResponse = user.toObject();
+  delete userResponse.password;
+
+  res.status(200).json({ token, user: userResponse });
 };
 
 export { registerUser };
