@@ -1,7 +1,12 @@
 import express from "express";
 import { body } from "express-validator";
-import authUser from "../middlewares/auth.middleware.js";
-import { getUserProfile, loginUser, logout, registerUser } from "../controllers/user.controllers.js";
+import { authUser } from "../middlewares/auth.middleware.js";
+import {
+  getUserProfile,
+  loginUser,
+  logout,
+  registerUser,
+} from "../controllers/user.controllers.js";
 const router = express.Router();
 
 router.post(
@@ -32,7 +37,7 @@ router.post(
   loginUser
 );
 
-router.get("/profile",authUser, getUserProfile);
-router.get("/logout",authUser,logout)
+router.get("/profile", authUser, getUserProfile);
+router.get("/logout", authUser, logout);
 
 export default router;
