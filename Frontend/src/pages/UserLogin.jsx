@@ -20,22 +20,24 @@ function UserLogin() {
   };
 
   return (
-    <div className="p-7 h-screen flex flex-col justify-between ">
-      <div className="">
+    <div className="p-4 sm:p-6 md:p-8 lg:p-10 h-screen flex flex-col justify-between">
+      <div className="w-full max-w-md mx-auto">
+        <Link to='/'>
         <img
-          className="w-16 mb-10"
+          className="w-12 sm:w-16 md:w-20 mb-6 sm:mb-10"
           src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
           alt="uber-png"
         />
+        </Link>
         <form
           onSubmit={(e) => {
             submitHandler(e);
           }}
         >
-          <h3 className="text-lg font-medium mb-2">What's your email</h3>
+          <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">What's your email</h3>
           <input
             id="email"
-            className="bg-[#eeeeee] mb-7 rounded px-4 border py-2 w-full text-lg placeholder:text-base"
+            className="bg-[#eeeeee] mb-5 sm:mb-7 rounded-2xl px-3 sm:px-4 py-2 sm:py-3 w-full text-base sm:text-lg placeholder:text-sm sm:placeholder:text-base"
             required
             value={email}
             onChange={(e) => {
@@ -45,10 +47,10 @@ function UserLogin() {
             autoComplete="off"
             placeholder="email@example.com"
           />
-          <h3 className="text-lg font-medium mb-2">Enter Password</h3>
+          <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">Enter Password</h3>
           <input
             id="password"
-            className="bg-[#eeeeee] mb-7 rounded px-4 border py-2 w-full text-lg placeholder:text-base"
+            className="bg-[#eeeeee] mb-5 sm:mb-7 rounded-2xl px-3 sm:px-4 py-2 sm:py-3 w-full text-base sm:text-lg placeholder:text-sm sm:placeholder:text-base"
             required
             value={password}
             onChange={(e) => {
@@ -60,22 +62,22 @@ function UserLogin() {
           />
           <button
             name="button"
-            className="bg-[#111] text-white font-semibold mb-7 rounded px-4  py-2 w-full text-lg placeholder:text-base"
+            className="bg-[#111] text-white font-semibold mb-5 sm:mb-7 rounded-2xl px-4 py-2 sm:py-3 w-full text-base sm:text-lg"
           >
             Login
           </button>
-          <p name="button" className="text-center">
-            New here?
+          <p name="button" className="text-center text-sm sm:text-base">
+            New here?{' '}
             <Link to="/register" className="text-blue-600">
               Create new Account
             </Link>
           </p>
         </form>
       </div>
-      <div>
+      <div className="w-full max-w-md mx-auto">
         <Link
           to="/captain-login"
-          className="flex items-center justify-center  bg-[#10b461] text-white mb-5 font-semibold  rounded px-4  py-2 w-full text-lg placeholder:text-base"
+          className="flex items-center justify-center bg-[#10b461] text-white mb-5 font-semibold rounded-2xl px-4 py-2 sm:py-3 w-full text-base sm:text-lg"
         >
           Sign in as Captain
         </Link>
