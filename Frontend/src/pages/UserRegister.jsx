@@ -25,18 +25,16 @@ function UserRegister() {
       email: email,
       password: password,
     };
-  
-    
 
     const response = await axios.post(
       `${import.meta.env.VITE_BASE_URL}/user/register`,
       newUser,
     );
 
-    
-
     if (response.status === 200) {
-      setUser(response.user);
+      const data = response.data;
+      setUser(response.data.user);
+      localStorage.setItem("token", JSON.stringify(data.token));
       navigate("/home");
     }
 

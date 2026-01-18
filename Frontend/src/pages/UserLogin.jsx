@@ -1,19 +1,38 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserDataContext } from "../context/UserContext.jsx";
+import axios from "axios";
 
 function UserLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState({});
 
-  const submitHandler = (e) => {
+  const navigate = useNavigate();
+
+  const { user, setUser } = useContext(UserDataContext);
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({
+    const newUser = {
       email: email,
       password: password,
-    });
+    };
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/user/login`,
+      newUser,
+    );
+
+    if (response.status === 200) {
+      const data = response.data
+      setUser(response.data.user);
+      localStorage.setItem('token', data.token)
+      navigate("/home");
+    }
+
     console.log(userData);
-    
+
     setEmail("");
     setPassword("");
   };
@@ -21,19 +40,21 @@ function UserLogin() {
   return (
     <div className="p-4 sm:p-6 md:p-8 lg:p-10 h-screen flex flex-col justify-between">
       <div className="w-full max-w-md mx-auto">
-        <Link to='/'>
-        <img
-          className="w-12 sm:w-16 md:w-20 mb-6 sm:mb-10"
-          src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-          alt="uber-png"
-        />
+        <Link to="/">
+          <img
+            className="w-12 sm:w-16 md:w-20 mb-6 sm:mb-10"
+            src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
+            alt="uber-png"
+          />
         </Link>
         <form
           onSubmit={(e) => {
             submitHandler(e);
           }}
         >
-          <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">What's your email</h3>
+          <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
+            What's your email
+          </h3>
           <input
             id="email"
             className="bg-[#eeeeee] mb-5 sm:mb-7 rounded-2xl px-3 sm:px-4 py-2 sm:py-3 w-full text-base sm:text-lg placeholder:text-sm sm:placeholder:text-base"
@@ -46,7 +67,9 @@ function UserLogin() {
             autoComplete="off"
             placeholder="email@example.com"
           />
-          <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">Enter Password</h3>
+          <h3 className="text-base sm:text-lg md:text-xl font-medium mb-2">
+            Enter Password
+          </h3>
           <input
             id="password"
             className="bg-[#eeeeee] mb-5 sm:mb-7 rounded-2xl px-3 sm:px-4 py-2 sm:py-3 w-full text-base sm:text-lg placeholder:text-sm sm:placeholder:text-base"
@@ -66,7 +89,7 @@ function UserLogin() {
             Login
           </button>
           <p name="button" className="text-center text-sm sm:text-base">
-            New here?{' '}
+            New here?{" "}
             <Link to="/register" className="text-blue-600">
               Create new Account
             </Link>
