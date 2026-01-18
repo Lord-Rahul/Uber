@@ -3,6 +3,7 @@ import UserProtectedWrapper from "./pages/UserProtectedWrapper.jsx";
 import { Route, Routes } from "react-router-dom";
 import {
   CaptainLogin,
+  CaptainHome,
   CaptainLogout,
   CaptainRegister,
   Home,
@@ -38,6 +39,8 @@ const App = () => {
             </UserProtectedWrapper>
           }
         />
+
+        <Route path="/captain-home" element={<CaptainHome />} />
       </Routes>
     </div>
   );

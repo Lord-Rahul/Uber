@@ -12,6 +12,13 @@ const registerCaptain = async (req, res, next) => {
   const { fullname, email, password, vehicle } = req.body;
 
   const duplicate = await Captain.findOne({ email });
+  const duplicatePlate = await Captain.findOne({ "vehicle.plate": vehicle.plate });
+  
+  if(duplicatePlate){
+     res.status(401).json({ message: "car plate  already registered" });
+  }
+
+
   if (duplicate) {
     res.status(401).json({ message: "email already exist" });
   }
