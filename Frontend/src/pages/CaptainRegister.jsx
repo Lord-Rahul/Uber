@@ -65,11 +65,13 @@ function CaptainRegister() {
   return (
     <div className="py-5 px-5 h-screen flex flex-col justify-between">
       <div>
-        <img
-          className="w-20 mb-3"
-          src="https://www.svgrepo.com/show/505031/uber-driver.svg"
-          alt=""
-        />
+        <Link to="/">
+          <img
+            className="w-20 sm:w-20 md:w-24 mb-4 sm:mb-6"
+            src="https://www.svgrepo.com/show/505031/uber-driver.svg"
+            alt=""
+          />
+        </Link>
 
         <form
           onSubmit={(e) => {

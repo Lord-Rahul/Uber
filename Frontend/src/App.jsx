@@ -8,10 +8,12 @@ import {
   CaptainRegister,
   Home,
   UserLogin,
+  CaptainProtectedWrapper,
   UserLogout,
   UserRegister,
 } from "./pages/index.js";
 import Start from "./pages/Start.jsx";
+
 
 const App = () => {
   return (
@@ -40,7 +42,14 @@ const App = () => {
           }
         />
 
-        <Route path="/captain-home" element={<CaptainHome />} />
+        <Route
+          path="/captain-home"
+          element={
+            <CaptainProtectedWrapper>
+              <CaptainHome />
+            </CaptainProtectedWrapper>
+          }
+        />
       </Routes>
     </div>
   );

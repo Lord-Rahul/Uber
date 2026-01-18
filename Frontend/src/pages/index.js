@@ -7,12 +7,14 @@ import Home from "./Home.jsx";
 import UserLogout from "./UserLogout.jsx";
 import CaptainLogout from "./CaptainLogout.jsx";
 import CaptainHome from "./CaptainHome.jsx";
+import CaptainProtectedWrapper from "./CaptainProtectedWrapper.jsx";
 
 export {
   Home,
   UserLogout,
   CaptainLogout,
   CaptainHome,
+  CaptainProtectedWrapper,
   UserLogin,
   UserRegister,
   Start,

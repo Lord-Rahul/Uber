@@ -4,6 +4,7 @@ function CaptainHome() {
   return (
     <div>
       Captain Home
+      dsfjkdsfsdf
     </div>
   )
 }
