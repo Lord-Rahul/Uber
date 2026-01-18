@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { UserDataContext } from "../context/UserContext.jsx";
+import { Link, useNavigate } from "react-router-dom";
 
 function UserRegister() {
   const [email, setEmail] = useState("");
@@ -9,17 +10,36 @@ function UserRegister() {
   const [lastname, setLastname] = useState("");
   const [userData, setUserData] = useState({});
 
-  const submitHandler = (e) => {
+  const navigate = useNavigate();
+
+  const { user, setUser } = React.useContext(UserDataContext);
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({
+
+    const newUser = {
       fullname: {
         firstname: firstname,
         lastname: lastname,
       },
       email: email,
       password: password,
-    });
-    console.log(userData)
+    };
+  
+    
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/user/register`,
+      newUser,
+    );
+
+    
+
+    if (response.status === 200) {
+      setUser(response.user);
+      navigate("/home");
+    }
+
     setEmail("");
     setPassword("");
     setFirstname("");
@@ -29,12 +49,12 @@ function UserRegister() {
   return (
     <div className="p-7 h-screen flex flex-col justify-between ">
       <div className="">
-        <Link to='/'>
-        <img
-          className="w-16 mb-10"
-          src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-          alt="uber-png"
-        />
+        <Link to="/">
+          <img
+            className="w-16 mb-10"
+            src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
+            alt="uber-png"
+          />
         </Link>
         <form
           onSubmit={(e) => {
