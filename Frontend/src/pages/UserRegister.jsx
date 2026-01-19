@@ -8,7 +8,8 @@ function UserRegister() {
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [userData, setUserData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -16,6 +17,20 @@ function UserRegister() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    // Validation
+    if (firstname.trim().length < 2) {
+      setError("First name must be at least 2 characters");
+      setIsLoading(false);
+      return;
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      setIsLoading(false);
+      return;
+    }
 
     const newUser = {
       fullname: {
@@ -26,23 +41,26 @@ function UserRegister() {
       password: password,
     };
 
-    const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/user/register`,
-      newUser,
-    );
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/user/register`,
+        newUser,
+      );
 
-    if (response.status === 200) {
-      const token = response.data.token;
-      const data = response.data;
-      setUser(response.data.user);
-      localStorage.setItem("token", token);
-      navigate("/home");
+      if (response.status === 200 || response.status === 201) {
+        const data = response.data;
+        setUser(response.data.user);
+        localStorage.setItem("token", data.token);
+        navigate("/home");
+      }
+    } catch (err) {
+      console.error("Registration error:", err);
+      setError(
+        err.response?.data?.message || "Registration failed. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
     }
-
-    setEmail("");
-    setPassword("");
-    setFirstname("");
-    setLastname("");
   };
 
   return (

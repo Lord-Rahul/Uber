@@ -6,33 +6,49 @@ import axios from "axios";
 function UserLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const { user, setUser } = useContext(UserDataContext);
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    // Basic validation
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      setIsLoading(false);
+      return;
+    }
+
     const newUser = {
       email: email,
       password: password,
     };
 
-    const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/user/login`,
-      newUser,
-    );
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/user/login`,
+        newUser,
+      );
 
-    if (response.status === 200) {
-      const data = response.data
-      setUser(response.data.user);
-      localStorage.setItem('token', data.token)
-      navigate("/home");
+      if (response.status === 200) {
+        const data = response.data;
+        setUser(response.data.user);
+        localStorage.setItem('token', data.token);
+        navigate("/home");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError(
+        err.response?.data?.message || "Login failed. Please check your credentials."
+      );
+    } finally {
+      setIsLoading(false);
     }
-
-
-
-    setEmail("");
-    setPassword("");
   };
 
   return (
