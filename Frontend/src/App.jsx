@@ -10,10 +10,9 @@ import {
   UserLogin,
   CaptainProtectedWrapper,
   UserLogout,
+  Start,
   UserRegister,
 } from "./pages/index.js";
-import Start from "./pages/Start.jsx";
-
 
 const App = () => {
   return (
@@ -33,15 +32,9 @@ const App = () => {
           }
         />
 
-        <Route
-          path="/user/logout"
-          element={
-            <UserProtectedWrapper>
-              <UserLogout />
-            </UserProtectedWrapper>
-          }
-        />
+        <Route path="/user/logout" element={<UserLogout />} />
 
+        <Route path="/captain/logout" element={<CaptainLogout />} />
         <Route
           path="/captain-home"
           element={

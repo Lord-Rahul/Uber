@@ -3,26 +3,36 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function UserLogout() {
-  const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
-    axios
-      .get(`${import.meta.env.VITE_BASE_URL}/user/logout`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        localStorage.removeItem("token");
-        console.log(response);
-      })
-      .finally((response) => {
-        navigate("/login");
-        console.log(response);
-      });
- 
+  useEffect(() => {
+    const performLogout = async () => {
+      const token = localStorage.getItem("token");
 
-  return <div></div>;
+      if (token) {
+        try {
+          await axios.get(`${import.meta.env.VITE_BASE_URL}/user/logout`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        } catch (err) {
+          console.error("Logout error:", err);
+        }
+      }
+
+      localStorage.removeItem("token");
+      navigate("/login");
+    };
+
+    performLogout();
+  }, [navigate]);
+
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <div className="text-2xl font-semibold text-gray-700">Logging out...</div>
+    </div>
+  );
 }
 
 export default UserLogout;
