@@ -17,11 +17,33 @@ function CaptainRegister() {
   const [vehiclePlate, setVehiclePlate] = useState("");
   const [vehicleCapacity, setVehicleCapacity] = useState("");
   const [vehicleType, setVehicleType] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const { captain, setCaptain } = React.useContext(CaptainDataContext);
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    // Validation
+    if (firstname.trim().length < 2) {
+      setError("First name must be at least 2 characters");
+      setIsLoading(false);
+      return;
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      setIsLoading(false);
+      return;
+    }
+    if (parseInt(vehicleCapacity) < 1) {
+      setError("Vehicle capacity must be at least 1");
+      setIsLoading(false);
+      return;
+    }
+
     const captainData = {
       fullname: {
         firstname: firstname,
@@ -38,28 +60,26 @@ function CaptainRegister() {
       },
     };
 
-    const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/captain/register`,
-      captainData,
-    );
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/captain/register`,
+        captainData,
+      );
 
-    console.log(response);
-
-    if (response.status === 201) {
-      const data = response.data;
-      setCaptain(data.captain);
-      localStorage.setItem("token", data.token);
-      navigate("/captain-home");
+      if (response.status === 201 || response.status === 200) {
+        const data = response.data;
+        setCaptain(data.captain);
+        localStorage.setItem("token", data.token);
+        navigate("/captain-home");
+      }
+    } catch (err) {
+      console.error("Captain registration error:", err);
+      setError(
+        err.response?.data?.message || "Registration failed. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
     }
-
-    setEmail("");
-    setFirstname("");
-    setLastname("");
-    setPassword("");
-    setVehicleColor("");
-    setVehiclePlate("");
-    setVehicleCapacity("");
-    setVehicleType("");
   };
 
   return (
@@ -208,11 +228,18 @@ function CaptainRegister() {
             </select>
           </div>
 
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-5">
+              {error}
+            </div>
+          )}
           <button
             name="button"
-            className="bg-[#111] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base"
+            type="submit"
+            disabled={isLoading}
+            className="bg-[#111] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Create Captain Account
+            {isLoading ? "Creating Account..." : "Create Captain Account"}
           </button>
         </form>
         <p className="text-center">

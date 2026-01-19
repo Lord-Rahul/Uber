@@ -37,8 +37,8 @@ function CaptainProtectedWrapper({ children }) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center">
-        <div className="text-4xl bg-red-500">Loading...</div>
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-2xl font-semibold text-gray-700">Loading...</div>
       </div>
     );
   }

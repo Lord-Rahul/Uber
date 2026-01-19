@@ -6,9 +6,7 @@ import axios from "axios";
 function UserLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useState({});
-
-  const navigate = useNavigate();
+  const navigate=useNavigate();
 
   const { user, setUser } = useContext(UserDataContext);
 
@@ -31,7 +29,7 @@ function UserLogin() {
       navigate("/home");
     }
 
-    console.log(userData);
+
 
     setEmail("");
     setPassword("");
@@ -82,11 +80,18 @@ function UserLogin() {
             autoComplete="off"
             placeholder="password"
           />
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-2xl mb-5">
+              {error}
+            </div>
+          )}
           <button
             name="button"
-            className="bg-[#111] text-white font-semibold mb-5 sm:mb-7 rounded-2xl px-4 py-2 sm:py-3 w-full text-base sm:text-lg"
+            type="submit"
+            disabled={isLoading}
+            className="bg-[#111] text-white font-semibold mb-5 sm:mb-7 rounded-2xl px-4 py-2 sm:py-3 w-full text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
           <p name="button" className="text-center text-sm sm:text-base">
             New here?{" "}

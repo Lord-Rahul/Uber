@@ -6,6 +6,8 @@ import axios from "axios";
 function CaptainLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const { captain, setCaptain } = useContext(CaptainDataContext);
 
@@ -13,25 +15,41 @@ function CaptainLogin() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    // Basic validation
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      setIsLoading(false);
+      return;
+    }
+
     const loginData = {
       email: email,
       password: password,
     };
 
-    const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/captain/login`,
-      loginData,
-    );
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/captain/login`,
+        loginData,
+      );
 
-    if (response.status === 200) {
-      const data = response.data;
-      setCaptain(data.captain);
-      localStorage.setItem("token", data.token);
-      navigate("/captain-home");
+      if (response.status === 200) {
+        const data = response.data;
+        setCaptain(data.captain);
+        localStorage.setItem("token", data.token);
+        navigate("/captain-home");
+      }
+    } catch (err) {
+      console.error("Captain login error:", err);
+      setError(
+        err.response?.data?.message || "Login failed. Please check your credentials."
+      );
+    } finally {
+      setIsLoading(false);
     }
-
-    setEmail("");
-    setPassword("");
   };
 
   return (
@@ -79,11 +97,18 @@ function CaptainLogin() {
             autoComplete="off"
             placeholder="password"
           />
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-2xl mb-5">
+              {error}
+            </div>
+          )}
           <button
             name="button"
-            className="bg-[#111] text-white font-semibold mb-5 sm:mb-7 rounded-2xl px-4 py-2 sm:py-3 w-full text-base sm:text-lg"
+            type="submit"
+            disabled={isLoading}
+            className="bg-[#111] text-white font-semibold mb-5 sm:mb-7 rounded-2xl px-4 py-2 sm:py-3 w-full text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
           <p name="button" className="text-center text-sm sm:text-base">
             Join as Captain?{" "}

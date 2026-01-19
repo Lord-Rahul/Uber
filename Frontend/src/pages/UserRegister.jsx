@@ -32,9 +32,10 @@ function UserRegister() {
     );
 
     if (response.status === 200) {
+      const token = response.data.token;
       const data = response.data;
       setUser(response.data.user);
-      localStorage.setItem("token", JSON.stringify(data.token));
+      localStorage.setItem("token", token);
       navigate("/home");
     }
 
@@ -112,24 +113,18 @@ function UserRegister() {
             autoComplete="off"
             placeholder="password"
           />
-          {/* <h3 className="text-base font-medium mb-2">Confirm Password</h3>
-          <input
-            id="confirm-password"
-            className="bg-[#eeeeee] mb-7 rounded-2xl px-4  py-2 w-full text-base placeholder:text-sm"
-            required
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            type="password"
-            autoComplete="off"
-            placeholder="password"
-          /> */}
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-2xl mb-5">
+              {error}
+            </div>
+          )}
           <button
             name="button"
-            className="bg-[#111] text-white font-semibold mb-7 rounded-2xl px-4  py-2 w-full text-base placeholder:text-sm"
+            type="submit"
+            disabled={isLoading}
+            className="bg-[#111] text-white font-semibold mb-7 rounded-2xl px-4  py-2 w-full text-base placeholder:text-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Register
+            {isLoading ? "Registering..." : "Register"}
           </button>
           <p name="button" className="text-center">
             Already have a account?
