@@ -7,6 +7,8 @@ import Home from "./Home.jsx";
 import UserLogout from "./UserLogout.jsx";
 import CaptainLogout from "./CaptainLogout.jsx";
 import CaptainHome from "./CaptainHome.jsx";
+import Riding from "./Riding.jsx";
+import CaptainRiding from "./CaptainRiding.jsx";
 import CaptainProtectedWrapper from "./CaptainProtectedWrapper.jsx";
 
 export {
@@ -17,7 +19,9 @@ export {
   CaptainProtectedWrapper,
   UserLogin,
   UserRegister,
+  CaptainRiding,
   Start,
+  Riding,
   CaptainLogin,
   CaptainRegister,
 };

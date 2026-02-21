@@ -10,7 +10,9 @@ import {
   UserLogin,
   CaptainProtectedWrapper,
   UserLogout,
+  CaptainRiding,
   Start,
+  Riding,
   UserRegister,
 } from "./pages/index.js";
 
@@ -20,6 +22,22 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Start />} />
         <Route path="/login" element={<UserLogin />} />
+        <Route
+          path="/riding"
+          element={
+            <UserProtectedWrapper>
+              <Riding />
+            </UserProtectedWrapper>
+          }
+        />
+        <Route
+          path="/captain-riding"
+          element={
+            <CaptainProtectedWrapper>
+              <CaptainRiding />
+            </CaptainProtectedWrapper>
+          }
+        />
         <Route path="/register" element={<UserRegister />} />
         <Route path="/captain-login" element={<CaptainLogin />} />
         <Route path="/captain-register" element={<CaptainRegister />} />
