@@ -12,7 +12,13 @@ const VehiclePannel = (props) => {
         <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
       </h5>
       <h3 className="text-2xl font-semibold mb-5">Choose a Vehicle</h3>
-      <div className="flex w-full active:border-2  border-black rounded-xl items-center justify-between p-3 mb-2">
+      <div
+        onClick={() => {
+          props.setConfirmRidePannel(true);
+          props.setVehiclePannelOpen(false);
+        }}
+        className="flex w-full active:border-2  border-black rounded-xl items-center justify-between p-3 mb-2"
+      >
         <img
           className="h-10 bg-white"
           src="https://swyft.pl/wp-content/uploads/2023/05/how-many-people-can-a-uberx-take.jpg"
@@ -35,7 +41,7 @@ const VehiclePannel = (props) => {
       <div
         onClick={() => {
           props.setConfirmRidePannel(true);
-          props.setVehiclePannelOpen(false)
+          props.setVehiclePannelOpen(false);
         }}
         className="flex w-full active:border-2  border-black rounded-xl items-center justify-between p-3 mb-2"
       >
@@ -47,7 +53,7 @@ const VehiclePannel = (props) => {
         <div
           onClick={() => {
             props.setConfirmRidePannel(true);
-             props.setVehiclePannelOpen(false)
+            props.setVehiclePannelOpen(false);
           }}
           className="ml-2 w-1/2"
         >
@@ -73,7 +79,7 @@ const VehiclePannel = (props) => {
         <div
           onClick={() => {
             props.setConfirmRidePannel(true);
-             props.setVehiclePannelOpen(false)
+            props.setVehiclePannelOpen(false);
           }}
           className="ml-2 w-1/2"
         >
